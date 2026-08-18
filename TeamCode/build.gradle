@@ -69,6 +69,11 @@ android {
     ndkVersion '21.3.6528147'
 }
 
+repositories {
+    // FTC Dashboard is published here, not on Maven Central.
+    maven { url = 'https://maven.brott.dev/' }
+}
+
 dependencies {
     implementation 'org.firstinspires.ftc:Inspection:11.1.0'
     implementation 'org.firstinspires.ftc:Blocks:11.1.0'
@@ -82,4 +87,10 @@ dependencies {
 
     implementation 'com.pedropathing:ftc:2.1.2'
     implementation 'com.pedropathing:telemetry:1.0.0'
+
+    // FTC Dashboard: live telemetry graphs + @Config runtime tuning.
+    // The SDK artifacts it declares are older than ours, so drop them.
+    implementation('com.acmerobotics.dashboard:dashboard:0.4.17') {
+        exclude group: 'org.firstinspires.ftc'
+    }
 }
