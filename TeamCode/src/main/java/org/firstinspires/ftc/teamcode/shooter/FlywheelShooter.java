@@ -28,7 +28,7 @@ public class FlywheelShooter {
     public static double kF = 0.000;
 
     /** Commanded flywheel speed, in RPM. */
-    public static double TARGET_RPM = 3000;
+
 
     /** RPMInThreshold() band, in RPM. */
     public static double thresholdTol = 65;

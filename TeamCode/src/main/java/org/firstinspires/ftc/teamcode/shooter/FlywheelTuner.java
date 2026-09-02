@@ -24,6 +24,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class FlywheelTuner extends LinearOpMode {
 
     FlywheelShooter shooter;
+    public static int TARGETRPM = 0;
 
     @Override
     public void runOpMode() {
@@ -39,7 +40,7 @@ public class FlywheelTuner extends LinearOpMode {
         while (opModeIsActive()) {
 
             shooter.updateRPM();
-            shooter.targetRPM = FlywheelShooter.TARGET_RPM;
+            shooter.targetRPM = TARGETRPM;
             shooter.updatePID();
 
             telemetry.addData("RPM", shooter.RPM);
