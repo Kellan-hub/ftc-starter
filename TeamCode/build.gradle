@@ -90,7 +90,7 @@ dependencies {
 
     // FTC Dashboard: live telemetry graphs + @Config runtime tuning.
     // The SDK artifacts it declares are older than ours, so drop them.
-    implementation('com.acmerobotics.dashboard:dashboard:0.4.17') {
+    implementation('com.acmerobotics.dashboard:dashboard:0.6.0') {
         exclude group: 'org.firstinspires.ftc'
     }
 }
