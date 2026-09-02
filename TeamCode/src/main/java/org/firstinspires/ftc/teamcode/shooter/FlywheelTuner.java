@@ -13,7 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * every loop, for as long as the OpMode runs. The gamepad is not used.
  *
  * <p>Open FTC Dashboard at http://192.168.43.1:8080/dash, run this OpMode, and edit
- * {@code TARGET_RPM} and the gains in the {@code FlywheelShooter} block while it spins.
+ * {@code TARGET_RPM} in the {@code FlywheelTuner} block and the gains in the
+ * {@code FlywheelShooter} block while it spins.
  * Graph {@code RPM} against {@code targetRPM} to see the response. Set {@code TARGET_RPM}
  * to 0 to spin down.
  *
@@ -24,7 +25,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class FlywheelTuner extends LinearOpMode {
 
     FlywheelShooter shooter;
-    public static int TARGETRPM = 0;
+    public static double TARGET_RPM = 0;
 
     @Override
     public void runOpMode() {
@@ -40,12 +41,12 @@ public class FlywheelTuner extends LinearOpMode {
         while (opModeIsActive()) {
 
             shooter.updateRPM();
-            shooter.targetRPM = TARGETRPM;
+            shooter.targetRPM = TARGET_RPM;
             shooter.updatePID();
 
             telemetry.addData("RPM", shooter.RPM);
             telemetry.addData("targetRPM", shooter.targetRPM);
-            telemetry.addData("power", shooter.leftMotor.getPower());
+            telemetry.addData("power", shooter.rightMotor.getPower());
             telemetry.addData("inThreshold", shooter.RPMInThreshold());
             telemetry.addData("time change", time.milliseconds());
             telemetry.update();

@@ -27,14 +27,11 @@ public class FlywheelShooter {
     public static double kD = 0;
     public static double kF = 0.000;
 
-    /** Commanded flywheel speed, in RPM. */
-
-
     /** RPMInThreshold() band, in RPM. */
     public static double thresholdTol = 65;
 
     /** Encoder counts per revolution of the motor shaft. */
-    public static double motorTicksPerRevolution = 103.8;
+    public static double motorTicksPerRevolution = 8192;
     /** Flywheel revolutions per motor revolution. 2.5 means a 1:2.5 gear-up. */
     public static double GEAR_RATIO = 2.5;
 
@@ -47,6 +44,7 @@ public class FlywheelShooter {
 
     public ElapsedTime RPMTimer;
     public PIDFController PIDF;
+    private final PIDFCoefficients liveCoefficients;
 
     /** Only the left motor needs an encoder plugged in; it is the one the loop reads. */
     public FlywheelShooter(HardwareMap HWMap) {
@@ -60,22 +58,25 @@ public class FlywheelShooter {
 
         RPMTimer = new ElapsedTime();
         RPMTimer.reset();
-        lastPosition = leftMotor.getCurrentPosition();
+        lastPosition = rightMotor.getCurrentPosition();
 
-        PIDF = new PIDFController(new PIDFCoefficients(kP, kI, kD, kF));
+        // Pedro's controller keeps this exact object as its coefficient supplier.
+        // Mutating it lets Dashboard gain changes reach PIDF.run().
+        liveCoefficients = new PIDFCoefficients(kP, kI, kD, kF);
+        PIDF = new PIDFController(liveCoefficients);
     }
 
     /** Measures flywheel RPM off the left encoder and picks up any gain edits. */
     public void updateRPM() {
         double currentTime = RPMTimer.milliseconds();
 
-        RPM = ((leftMotor.getCurrentPosition() - lastPosition) / motorTicksPerRevolution)
+        RPM = ((rightMotor.getCurrentPosition() - lastPosition) / motorTicksPerRevolution)
                 * GEAR_RATIO * (60000 / currentTime);
 
         RPMTimer.reset();
-        lastPosition = leftMotor.getCurrentPosition();
+        lastPosition = rightMotor.getCurrentPosition();
 
-        PIDF.setCoefficients(new PIDFCoefficients(kP, kI, kD, kF));
+        liveCoefficients.setCoefficients(kP, kI, kD, kF);
     }
 
     /** Runs one PIDF iteration and writes the output straight to both motors. */
