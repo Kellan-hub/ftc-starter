@@ -1,55 +1,22 @@
-import java.text.SimpleDateFormat
+/**
+ * Your team's code.
+ *
+ * This is a library module: it is compiled into the Robot Controller APK built
+ * by :FtcRobotController. Write your OpModes in
+ * src/main/java/org/firstinspires/ftc/teamcode/ — the SDK finds them by their
+ * @TeleOp / @Autonomous annotations, no registration needed.
+ */
 
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdk 35
-    namespace 'com.qualcomm.ftcrobotcontroller'
-
-    signingConfigs {
-        release {
-            def apkStoreFile = System.getenv("APK_SIGNING_STORE_FILE")
-            if (apkStoreFile != null) {
-                keyAlias System.getenv("APK_SIGNING_KEY_ALIAS")
-                keyPassword System.getenv("APK_SIGNING_KEY_PASSWORD")
-                storeFile file(System.getenv("APK_SIGNING_STORE_FILE"))
-                storePassword System.getenv("APK_SIGNING_STORE_PASSWORD")
-            } else {
-                keyAlias 'androiddebugkey'
-                keyPassword 'android'
-                storeFile rootProject.file('libs/ftc.debug.keystore')
-                storePassword 'android'
-            }
-        }
-        debug {
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-            storeFile rootProject.file('libs/ftc.debug.keystore')
-            storePassword 'android'
-        }
-    }
+    namespace 'org.firstinspires.ftc.teamcode'
 
     defaultConfig {
-        signingConfig signingConfigs.debug
-        applicationId 'com.qualcomm.ftcrobotcontroller'
         minSdkVersion 24
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
-        versionCode 61
-        versionName "11.1"
-        buildConfigField "String", "APP_BUILD_TIME", '"' + (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ROOT).format(new Date())) + '"'
-    }
-
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-            ndk { abiFilters "arm64-v8a" }
-        }
-        debug {
-            debuggable true
-            jniDebuggable true
-            ndk { abiFilters "arm64-v8a" }
-        }
     }
 
     compileOptions {
@@ -57,46 +24,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    buildFeatures {
-        buildConfig = true
-    }
-
     packagingOptions {
-        pickFirst '**/*.so'
         jniLibs.useLegacyPackaging true
     }
-
-    ndkVersion '21.3.6528147'
 }
 
-repositories {
-    // FTC Dashboard is published here, not on Maven Central.
-    maven { url = 'https://maven.brott.dev/' }
-
-    // Panels, the dashboard the Pedro Pathing tuners report to.
-    maven { url = 'https://mymaven.bylazar.com/releases' }
-}
-
-dependencies {
-    implementation 'org.firstinspires.ftc:Inspection:11.1.0'
-    implementation 'org.firstinspires.ftc:Blocks:11.1.0'
-    implementation 'org.firstinspires.ftc:RobotCore:11.1.0'
-    implementation 'org.firstinspires.ftc:RobotServer:11.1.0'
-    implementation 'org.firstinspires.ftc:OnBotJava:11.1.0'
-    implementation 'org.firstinspires.ftc:Hardware:11.1.0'
-    implementation 'org.firstinspires.ftc:FtcCommon:11.1.0'
-    implementation 'org.firstinspires.ftc:Vision:11.1.0'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-
-    implementation 'com.pedropathing:ftc:2.1.2'
-    implementation 'com.pedropathing:telemetry:1.0.0'
-
-    // Panels: the telemetry + field drawing + live config surface Tuning.java uses.
-    implementation 'com.bylazar:fullpanels:1.0.12'
-
-    // FTC Dashboard: live telemetry graphs + @Config runtime tuning.
-    // The SDK artifacts it declares are older than ours, so drop them.
-    implementation('com.acmerobotics.dashboard:dashboard:0.6.0') {
-        exclude group: 'org.firstinspires.ftc'
-    }
-}
+apply from: '../build.dependencies.gradle'
