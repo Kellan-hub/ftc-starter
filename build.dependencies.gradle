@@ -1,6 +1,8 @@
 repositories {
     mavenCentral()
     google() // Needed for androidx
+
+    // Panels (bylazar) - the telemetry/field UI that the Pedro Pathing tuners draw to.
     maven { url = "https://mymaven.bylazar.com/releases" }
 
     // FTC Dashboard is published here, not on Maven Central.
@@ -18,14 +20,18 @@ dependencies {
     implementation 'org.firstinspires.ftc:Vision:11.1.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
+    // Pedro Pathing: the follower, the FTC bindings, and the selection-menu telemetry
+    // that the Tuning OpMode is built on.
     implementation 'com.pedropathing:ftc:2.1.2'
     implementation 'com.pedropathing:telemetry:1.0.0'
+
+    // Panels: the field view and live-configurable values used by the tuners.
     implementation 'com.bylazar:fullpanels:1.0.12'
 
-    // FTC Dashboard: live telemetry graphs + @Config runtime tuning, used by the
-    // shooter OpModes. The SDK artifacts it declares are older than ours, so drop them.
+    // FTC Dashboard: live telemetry graphs, a field overlay, and @Config runtime tuning,
+    // reachable at http://192.168.43.1:8080/dash while connected to the Robot Controller.
+    // The SDK artifacts it declares are older than ours, so drop them.
     implementation('com.acmerobotics.dashboard:dashboard:0.6.0') {
         exclude group: 'org.firstinspires.ftc'
     }
 }
-
