@@ -72,6 +72,9 @@ android {
 repositories {
     // FTC Dashboard is published here, not on Maven Central.
     maven { url = 'https://maven.brott.dev/' }
+
+    // Panels, the dashboard the Pedro Pathing tuners report to.
+    maven { url = 'https://mymaven.bylazar.com/releases' }
 }
 
 dependencies {
@@ -87,6 +90,9 @@ dependencies {
 
     implementation 'com.pedropathing:ftc:2.1.2'
     implementation 'com.pedropathing:telemetry:1.0.0'
+
+    // Panels: the telemetry + field drawing + live config surface Tuning.java uses.
+    implementation 'com.bylazar:fullpanels:1.0.12'
 
     // FTC Dashboard: live telemetry graphs + @Config runtime tuning.
     // The SDK artifacts it declares are older than ours, so drop them.
