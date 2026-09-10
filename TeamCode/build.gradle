@@ -1,32 +1,28 @@
-/**
- * Your team's code.
- *
- * This is a library module: it is compiled into the Robot Controller APK built
- * by :FtcRobotController. Write your OpModes in
- * src/main/java/org/firstinspires/ftc/teamcode/ — the SDK finds them by their
- * @TeleOp / @Autonomous annotations, no registration needed.
- */
+//
+// build.gradle in TeamCode
+//
+// Most of the definitions for building your module reside in a common, shared
+// file 'build.common.gradle'. Being factored in this way makes it easier to
+// integrate updates to the FTC into your code. If you really need to customize
+// the build definitions, you can place those customizations in this file, but
+// please think carefully as to whether such customizations are really necessary
+// before doing so.
 
-apply plugin: 'com.android.library'
+
+// Custom definitions may go here
+
+// Include common definitions from above.
+apply from: '../build.common.gradle'
+apply from: '../build.dependencies.gradle'
 
 android {
-    compileSdk 35
-    namespace 'org.firstinspires.ftc.teamcode'
-
-    defaultConfig {
-        minSdkVersion 24
-        //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 28
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+    namespace = 'org.firstinspires.ftc.teamcode'
 
     packagingOptions {
         jniLibs.useLegacyPackaging true
     }
 }
 
-apply from: '../build.dependencies.gradle'
+dependencies {
+    implementation project(':FtcRobotController')
+}
